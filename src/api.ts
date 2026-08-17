@@ -4,6 +4,7 @@ const API_URL = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
 const ACCESS_KEY = 'call-analyse.access-token'
 const REFRESH_KEY = 'call-analyse.refresh-token'
 const CRITERION_MAX: Record<string, number> = { greeting: 5, rapport: 10, needs_discovery: 20, presentation: 15, objection_handling: 20, next_action: 15, communication: 10, closing: 5 }
+let refreshPromise: Promise<boolean> | null = null
 
 type TokenPair = { access_token: string; refresh_token: string }
 type APIErrorBody = { error?: { message?: string; code?: string } }
@@ -48,12 +49,16 @@ function parseUser(value: unknown): User {
 }
 
 async function refresh(): Promise<boolean> {
+  if (refreshPromise) return refreshPromise
   const token = session.refreshToken
   if (!token) return false
-  const response = await fetch(`${API_URL}/api/v1/auth/refresh`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: token }) })
-  if (!response.ok) { session.clear(); return false }
-  session.save(await response.json() as TokenPair)
-  return true
+  refreshPromise = (async () => {
+    const response = await fetch(`${API_URL}/api/v1/auth/refresh`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: token }) })
+    if (!response.ok) { session.clear(); return false }
+    session.save(await response.json() as TokenPair)
+    return true
+  })()
+  try { return await refreshPromise } finally { refreshPromise = null }
 }
 
 async function request<T>(path: string, init: RequestInit = {}, retry = true): Promise<T> {
