@@ -1,46 +1,52 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Analysis } from '../../entities/call/model'
+import { IconSparkles } from '../../shared/ui/Icons'
 
-function ListBlock({ title, items }: { title: string; items?: string[] }) {
+function InsightSection({ title, items, variant }: { title: string; items?: string[]; variant?: 'positive' | 'negative' | 'neutral' }) {
   const { t } = useTranslation('scoring')
+  if (!items || items.length === 0) return null
+
   return (
-    <div className="insight-block">
-      <h3>{title}</h3>
-      {items?.length ? (
-        <ul>
-          {items.map(item => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="muted">{t('insights.empty')}</p>
-      )}
+    <div className={`insight-block ${variant ? `variant-${variant}` : ''}`}>
+      <h4>{title}</h4>
+      <ul>
+        {items.map(item => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   )
 }
 
 export function AIFeedback({ analysis }: { analysis: Analysis }) {
   const { t } = useTranslation('scoring')
+
   return (
-    <section className="content-card">
-      <div className="section-heading">
-        <div>
-          <span className="eyebrow">{t('header.aiFeedback')}</span>
-          <h2>{t('header.analysisSummary')}</h2>
+    <section className="ai-surface">
+      <div className="ai-header">
+        <div className="ai-badge">
+          <IconSparkles />
+          <span>{t('header.aiFeedback')}</span>
         </div>
+        <h2>{t('header.analysisSummary')}</h2>
       </div>
-      <p className="lead">{analysis.summary}</p>
-      <div className="insights-grid">
-        <ListBlock title={t('insights.needs')} items={analysis.needs} />
-        <ListBlock title={t('insights.objections')} items={analysis.objections} />
-        <ListBlock title={t('insights.strengths')} items={analysis.strengths} />
-        <ListBlock title={t('insights.mistakes')} items={analysis.mistakes} />
+
+      <p className="ai-summary-lead">{analysis.summary}</p>
+
+      <div className="insights-container">
+        <InsightSection title={t('insights.needs')} items={analysis.needs} variant="neutral" />
+        <InsightSection title={t('insights.objections')} items={analysis.objections} variant="negative" />
+        <InsightSection title={t('insights.strengths')} items={analysis.strengths} variant="positive" />
+        <InsightSection title={t('insights.mistakes')} items={analysis.mistakes} variant="negative" />
       </div>
-      <div className="next-action">
-        <span className="eyebrow">{t('header.recommendedAction')}</span>
-        <p>{analysis.nextAction}</p>
-      </div>
+
+      {analysis.nextAction && (
+        <div className="next-action-card">
+          <span className="eyebrow">{t('header.recommendedAction')}</span>
+          <p>{analysis.nextAction}</p>
+        </div>
+      )}
     </section>
   )
 }

@@ -30,23 +30,25 @@ export function CallDetailPage() {
   const data = detail.data
 
   return (
-    <>
+    <div className="call-detail-page">
       <Link className="back-link" to="/calls">
         ← {t('common:actions.back')}
       </Link>
+
       <PageHeader
         eyebrow={t('calls:header.detailEyebrow')}
         title={data.call.originalFilename || t('calls:header.untitled')}
         action={<StatusPill status={data.call.status} />}
       />
-      <div className="detail-meta">
-        <span>{formatDate(data.call.createdAt, i18n.language)}</span>
-        <span>{formatBytes(data.call.sizeBytes, i18n.language)}</span>
-        <span>{data.manager?.email ?? 'Manager'}</span>
+
+      <div className="detail-meta-bar">
+        <span className="meta-tag">{formatDate(data.call.createdAt, i18n.language)}</span>
+        <span className="meta-tag">{formatBytes(data.call.sizeBytes, i18n.language)}</span>
+        <span className="meta-tag">{data.manager?.email ?? 'Manager'}</span>
       </div>
 
       {data.call.status === 'failed' && (
-        <div className="alert alert-error">
+        <div className="alert alert-error" style={{ marginBottom: '24px' }}>
           <strong>{t('errors:viewError.detailFailedTitle')}</strong>
           <span>{t('errors:viewError.detailFailedSub')}</span>
         </div>
@@ -54,16 +56,17 @@ export function CallDetailPage() {
 
       <PipelineTracker status={data.call.status} />
 
-      {data.score && <ScoreOverview score={data.score} />}
-
-      {data.analysis && (
-        <div className="detail-grid">
-          <AIFeedback analysis={data.analysis} />
-          <CriteriaBreakdown criterionResults={data.analysis.criterionResults} />
+      <div className="call-detail-layout">
+        <div className="detail-main-col">
+          {data.analysis && <AIFeedback analysis={data.analysis} />}
+          {data.transcript && <TranscriptViewer transcript={data.transcript} />}
         </div>
-      )}
 
-      {data.transcript && <TranscriptViewer transcript={data.transcript} />}
-    </>
+        <div className="detail-side-col">
+          {data.score && <ScoreOverview score={data.score} />}
+          {data.analysis && <CriteriaBreakdown criterionResults={data.analysis.criterionResults} />}
+        </div>
+      </div>
+    </div>
   )
 }

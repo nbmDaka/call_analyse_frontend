@@ -1082,13 +1082,421 @@ tr:hover .row-arrow {
   line-height: 1.4;
 }
 
+/* ==========================================================================
+   CALL DETAIL EXPERIENCE (65/35 ASYMMETRICAL GRID & AI SURFACES)
+   ========================================================================== */
+
+.detail-meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.meta-tag {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-fg-muted);
+  background-color: var(--color-surface-muted);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-card-border);
+}
+
+.pipeline-card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.pipeline-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pipeline-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-fg-subtle);
+  white-space: nowrap;
+}
+
+.pipeline-step.completed {
+  color: var(--status-completed-fg);
+  font-weight: 600;
+}
+
+.pipeline-step.current {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.pipeline-step.failed {
+  color: var(--status-failed-fg);
+  font-weight: 600;
+}
+
+.pipeline-dot {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-card-border);
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pipeline-step.completed .pipeline-dot {
+  background-color: var(--status-completed-bg);
+  border-color: var(--status-completed-border);
+  color: var(--status-completed-fg);
+}
+
+.pipeline-step.current .pipeline-dot {
+  background-color: var(--color-primary-subtle);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  animation: pulse-dot 1.5s infinite ease-in-out;
+}
+
+.pipeline-step.failed .pipeline-dot {
+  background-color: var(--status-failed-bg);
+  border-color: var(--status-failed-border);
+  color: var(--status-failed-fg);
+}
+
+.pipeline-line {
+  flex: 1;
+  height: 2px;
+  background-color: var(--color-line);
+  min-width: 16px;
+}
+
+.call-detail-layout {
+  display: grid;
+  grid-template-columns: 65% calc(35% - 24px);
+  gap: 24px;
+  align-items: start;
+}
+
+.detail-main-col, .detail-side-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Score Overview & Ring Gauge */
+.score-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px;
+}
+
+.score-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.score-ring-container {
+  position: relative;
+  width: 128px;
+  height: 128px;
+}
+
+.score-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-ring-bg {
+  fill: none;
+  stroke: var(--color-surface-muted);
+  stroke-width: 8;
+}
+
+.score-ring-val {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.tier-high .score-ring-val {
+  stroke: var(--status-completed-fg);
+}
+
+.tier-mid .score-ring-val {
+  stroke: var(--color-primary);
+}
+
+.tier-low .score-ring-val {
+  stroke: var(--status-failed-fg);
+}
+
+.score-ring-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-number {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-fg);
+  line-height: 1;
+}
+
+.score-max {
+  font-size: 12px;
+  color: var(--color-fg-subtle);
+  margin-top: 2px;
+}
+
+/* Criteria Breakdown */
+.criteria-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.criterion-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.criterion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.criterion-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-fg);
+}
+
+.criterion-score {
+  font-size: 12.5px;
+  color: var(--color-fg-muted);
+}
+
+.criterion-score strong {
+  color: var(--color-fg);
+  font-weight: 700;
+}
+
+.criterion-track {
+  height: 6px;
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.criterion-bar {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.criterion-feedback {
+  font-size: 12px;
+  color: var(--color-fg-muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
 /* AI Intelligence Surfaces */
 .ai-surface {
   background-color: var(--color-ai-bg);
   border: 1px solid var(--color-ai-border);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 28px;
   color: var(--color-ai-text);
+  box-shadow: var(--shadow-sm);
+}
+
+.ai-header {
+  margin-bottom: 16px;
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.ai-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-fg);
+}
+
+.ai-summary-lead {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-fg);
+  margin-bottom: 24px;
+}
+
+.insights-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.insight-block {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.insight-block.variant-positive {
+  border-left: 3px solid var(--status-completed-fg);
+}
+
+.insight-block.variant-negative {
+  border-left: 3px solid var(--status-failed-fg);
+}
+
+.insight-block.variant-neutral {
+  border-left: 3px solid var(--color-primary);
+}
+
+.insight-block h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-fg);
+  margin-bottom: 8px;
+}
+
+.insight-block ul {
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--color-fg-muted);
+}
+
+.insight-block li {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.next-action-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.next-action-card p {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-fg);
+  margin-top: 4px;
+}
+
+/* Transcript Viewer */
+.transcript-card {
+  padding: 28px;
+}
+
+.transcript-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.transcript-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.transcript-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.transcript-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transcript-time {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--color-fg-subtle);
+}
+
+.speaker-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.badge-manager {
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+}
+
+.badge-customer {
+  background-color: var(--color-surface-muted);
+  color: var(--color-fg-muted);
+}
+
+.transcript-text {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-fg);
+  margin-top: 2px;
+}
+
+.transcript-plain {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-fg);
+  white-space: pre-wrap;
 }
 
 /* Media Queries for Desktop & Mobile */
@@ -1097,6 +1505,12 @@ tr:hover .row-arrow {
     grid-template-columns: repeat(2, 1fr);
   }
   .upload-layout {
+    grid-template-columns: 1fr;
+  }
+  .call-detail-layout {
+    grid-template-columns: 1fr;
+  }
+  .insights-container {
     grid-template-columns: 1fr;
   }
 }
@@ -1127,5 +1541,15 @@ tr:hover .row-arrow {
   .stats-grid {
     grid-template-columns: 1fr;
   }
+  .pipeline-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .pipeline-line {
+    width: 2px;
+    height: 12px;
+    margin-left: 10px;
+  }
 }
+
 
