@@ -2,13 +2,13 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { BrowserRouter, Link, Navigate, NavLink, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getCall, getCalls, getDashboard, getMe, login, logout, session, uploadCall } from './api'
+import { getCall, getCalls, getDashboard, getMe, login, logout, register, session, uploadCall } from './api'
 import type { Call, CallDetail, CallStatus, User } from './types'
 import './styles.css'
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1, staleTime: 15_000 } } })
 
-const AuthContext = createContext<{ user: User | null; loading: boolean; signIn: (email: string, password: string) => Promise<void>; signOut: () => Promise<void> }>({ user: null, loading: true, signIn: async () => undefined, signOut: async () => undefined })
+const AuthContext = createContext<{ user: User | null; loading: boolean; signIn: (email: string, password: string) => Promise<void>; signUp: (email: string, password: string) => Promise<void>; signOut: () => Promise<void> }>({ user: null, loading: true, signIn: async () => undefined, signUp: async () => undefined, signOut: async () => undefined })
 function useAuth() { return useContext(AuthContext) }
 function safeInternalPath(value: unknown) { return typeof value === 'string' && value.startsWith('/') && !value.startsWith('//') && !value.includes('\\') ? value : '/dashboard' }
 
@@ -22,6 +22,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = {
     user, loading,
     async signIn(email: string, password: string) { setUser(await login(email, password)) },
+    async signUp(email: string, password: string) { setUser(await register(email, password)) },
     async signOut() { await logout(); setUser(null); queryClient.clear() },
   }
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
@@ -35,9 +36,10 @@ function ProtectedRoute() {
 }
 
 function LoginPage() {
-  const { user, signIn } = useAuth()
+  const { user, signIn, signUp } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
+  const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -45,11 +47,20 @@ function LoginPage() {
   if (user) return <Navigate to="/dashboard" replace />
   async function submit(event: React.FormEvent) {
     event.preventDefault(); setError(''); setBusy(true)
-    try { await signIn(email, password); navigate(safeInternalPath((location.state as { from?: unknown } | null)?.from), { replace: true }) }
-    catch (cause) { setError(cause instanceof Error ? cause.message : 'Unable to sign in') }
-    finally { setBusy(false) }
+    try {
+      if (mode === 'login') {
+        await signIn(email, password)
+      } else {
+        await signUp(email, password)
+      }
+      navigate(safeInternalPath((location.state as { from?: unknown } | null)?.from), { replace: true })
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : mode === 'login' ? 'Unable to sign in' : 'Unable to create account')
+    } finally {
+      setBusy(false)
+    }
   }
-  return <main className="auth-page"><section className="auth-card"><div className="brand-mark">CA</div><p className="eyebrow">CALL ANALYSE</p><h1>Make every conversation count.</h1><p className="muted">Review calls, spot coaching opportunities, and turn insights into action.</p><form onSubmit={submit} className="stack"><label>Email<input type="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} required /></label><label>Password<input type="password" autoComplete="current-password" value={password} onChange={event => setPassword(event.target.value)} required /></label>{error && <p className="form-error">{error}</p>}<button className="button button-primary" disabled={busy}>{busy ? 'Signing in…' : 'Sign in'}</button></form></section><aside className="auth-aside"><span>FIELD NOTE · 01</span><p>“The best coaching starts with a clear picture of what actually happened.”</p></aside></main>
+  return <main className="auth-page"><section className="auth-card"><div className="brand-mark">CA</div><p className="eyebrow">CALL ANALYSE</p><h1>{mode === 'login' ? 'Make every conversation count.' : 'Join Call Analyse workspace.'}</h1><p className="muted">{mode === 'login' ? 'Review calls, spot coaching opportunities, and turn insights into action.' : 'Create your account to start analyzing sales calls and track performance.'}</p><form onSubmit={submit} className="stack"><label>Email<input type="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} required /></label><label>Password<input type="password" autoComplete={mode === 'login' ? 'current-password' : 'new-password'} value={password} onChange={event => setPassword(event.target.value)} required /></label>{error && <p className="form-error">{error}</p>}<button className="button button-primary" disabled={busy}>{busy ? (mode === 'login' ? 'Signing in…' : 'Creating account…') : (mode === 'login' ? 'Sign in' : 'Create account')}</button><p className="muted" style={{ fontSize: '13px', margin: '5px 0 0', textAlign: 'center' }}>{mode === 'login' ? "Don't have an account? " : 'Already have an account? '}<button type="button" className="button button-ghost" style={{ padding: '0 4px', textDecoration: 'underline' }} onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError('') }}>{mode === 'login' ? 'Sign up' : 'Sign in'}</button></p></form></section><aside className="auth-aside"><span>FIELD NOTE · 01</span><p>“The best coaching starts with a clear picture of what actually happened.”</p></aside></main>
 }
 
 function AppShell() {

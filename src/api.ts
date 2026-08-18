@@ -82,6 +82,12 @@ export async function login(email: string, password: string) {
   return getMe()
 }
 
+export async function register(email: string, password: string) {
+  const pair = await request<TokenPair>('/api/v1/auth/register', { method: 'POST', body: JSON.stringify({ email, password }) }, false)
+  session.save(pair)
+  return getMe()
+}
+
 export async function logout() {
   const token = session.refreshToken
   if (token) await request('/api/v1/auth/logout', { method: 'POST', body: JSON.stringify({ refresh_token: token }) }, false).catch(() => undefined)
