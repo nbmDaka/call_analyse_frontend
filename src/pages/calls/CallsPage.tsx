@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../features/auth/useAuth'
 import { canUpload } from '../../entities/user/model'
 import { getCalls } from '../../features/calls-list/api'
@@ -12,19 +13,20 @@ import { IconUpload } from '../../shared/ui/Icons'
 
 export function CallsPage() {
   const { user } = useAuth()
+  const { t } = useTranslation(['calls', 'common'])
   const [page, setPage] = useState(1)
   const calls = useQuery({ queryKey: ['calls', page], queryFn: () => getCalls(page) })
 
   return (
     <>
       <PageHeader
-        eyebrow="CALL LIBRARY"
-        title="Calls"
+        eyebrow={t('calls:header.eyebrow')}
+        title={t('calls:header.title')}
         action={
           canUpload(user?.role) && (
             <Link className="button button-primary" to="/calls/new">
               <IconUpload />
-              Upload call
+              {t('common:actions.uploadCall')}
             </Link>
           )
         }
@@ -32,10 +34,10 @@ export function CallsPage() {
       <section className="content-card">
         <div className="section-heading">
           <div>
-            <h2>All recordings</h2>
-            <p className="muted">Review processing status and open detailed analysis.</p>
+            <h2>{t('calls:library.title')}</h2>
+            <p className="muted">{t('calls:library.sub')}</p>
           </div>
-          {calls.data && <span className="result-count">{calls.data.total} total</span>}
+          {calls.data && <span className="result-count">{t('calls:library.total', { count: calls.data.total })}</span>}
         </div>
         {calls.isLoading ? (
           <LoadingLine />
@@ -47,14 +49,14 @@ export function CallsPage() {
             {(calls.data?.totalPages ?? 1) > 1 && (
               <div className="pagination">
                 <span>
-                  Page {page} of {calls.data?.totalPages}
+                  {t('calls:pagination.page', { current: page, total: calls.data?.totalPages })}
                 </span>
                 <div className="pagination-controls">
                   <button disabled={page === 1} onClick={() => setPage(value => value - 1)}>
-                    ← Previous
+                    {t('common:actions.previous')}
                   </button>
                   <button disabled={page === calls.data?.totalPages} onClick={() => setPage(value => value + 1)}>
-                    Next →
+                    {t('common:actions.next')}
                   </button>
                 </div>
               </div>

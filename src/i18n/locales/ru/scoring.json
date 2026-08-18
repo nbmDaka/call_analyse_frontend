@@ -1,0 +1,27 @@
+{
+  "header": {
+    "overallScore": "ОБЩИЙ БАЛЛ",
+    "aiFeedback": "ИИ-ОТЗЫВ",
+    "analysisSummary": "Резюме анализа",
+    "scoringBreakdown": "ОЦЕНКА ПО КРИТЕРИЯМ",
+    "criteria": "Критерии",
+    "recommendedAction": "РЕКОМЕНДУЕМОЕ СЛЕДУЮЩЕЕ ДЕЙСТВИЕ"
+  },
+  "insights": {
+    "needs": "Потребности клиента",
+    "objections": "Возражения",
+    "strengths": "Сильные стороны менеджера",
+    "mistakes": "Ошибки менеджера",
+    "empty": "Наблюдений не зафиксировано."
+  },
+  "criteria": {
+    "greeting": "Приветствие",
+    "rapport": "Установление контакта",
+    "needs_discovery": "Выявление потребностей",
+    "presentation": "Презентация",
+    "objection_handling": "Работа с возражениями",
+    "next_action": "Следующий шаг",
+    "communication": "Коммуникация",
+    "closing": "Завершение сделки"
+  }
+}

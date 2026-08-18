@@ -1,0 +1,37 @@
+{
+  "branding": {
+    "appName": "Call Analyse",
+    "tagline": "Қоңыраулар аналитикасы платформасы"
+  },
+  "nav": {
+    "overview": "Шолу",
+    "calls": "Қоңыраулар",
+    "workspace": "Жұмыс кеңістігі"
+  },
+  "actions": {
+    "save": "Сақтау",
+    "cancel": "Бас тарту",
+    "back": "Қоңырауларға қайту",
+    "upload": "Жүктеу",
+    "analyseCall": "Қоңырауды талдау",
+    "uploadCall": "Қоңырауды жүктеу",
+    "chooseFile": "Файлды таңдау",
+    "signIn": "Кіру",
+    "signUp": "Тіркелу",
+    "signOut": "Шығу",
+    "next": "Келесі →",
+    "previous": "← Артқа"
+  },
+  "theme": {
+    "darkTheme": "Түнгі режим",
+    "lightTheme": "Күндізгі режим"
+  },
+  "lang": {
+    "ru": "RU",
+    "kk": "ҚАЗ"
+  },
+  "loading": {
+    "workspace": "Жұмыс кеңістігі жүктелуде…",
+    "default": "Жүктелуде…"
+  }
+}

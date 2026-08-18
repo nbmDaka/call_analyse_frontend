@@ -1,0 +1,37 @@
+{
+  "branding": {
+    "appName": "Call Analyse",
+    "tagline": "Платформа аналитики звонков"
+  },
+  "nav": {
+    "overview": "Обзор",
+    "calls": "Звонки",
+    "workspace": "Рабочее пространство"
+  },
+  "actions": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "back": "Назад к звонкам",
+    "upload": "Загрузить",
+    "analyseCall": "Проанализировать звонок",
+    "uploadCall": "Загрузить звонок",
+    "chooseFile": "Выбрать файл",
+    "signIn": "Войти",
+    "signUp": "Зарегистрироваться",
+    "signOut": "Выйти",
+    "next": "Далее →",
+    "previous": "← Назад"
+  },
+  "theme": {
+    "darkTheme": "Тёмная тема",
+    "lightTheme": "Светлая тема"
+  },
+  "lang": {
+    "ru": "RU",
+    "kk": "ҚАЗ"
+  },
+  "loading": {
+    "workspace": "Загрузка рабочего пространства…",
+    "default": "Загрузка…"
+  }
+}

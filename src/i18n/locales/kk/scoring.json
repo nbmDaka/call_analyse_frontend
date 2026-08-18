@@ -1,0 +1,27 @@
+{
+  "header": {
+    "overallScore": "ЖАЛПЫ БАЛЛ",
+    "aiFeedback": "ЖИ ПІКІРІ",
+    "analysisSummary": "Талдау түйіні",
+    "scoringBreakdown": "КРИТЕРИЙЛЕР БОЙЫНША БАҒАЛАУ",
+    "criteria": "Критерийлер",
+    "recommendedAction": "ҰСЫНЫЛАТЫН КЕЛЕСІ ӘРЕКЕТ"
+  },
+  "insights": {
+    "needs": "Тұтынушының қажеттіліктері",
+    "objections": "Қарсылықтар",
+    "strengths": "Менеджердің мықты жақтары",
+    "mistakes": "Менеджердің қателіктері",
+    "empty": "Бақылаулар тіркелмеді."
+  },
+  "criteria": {
+    "greeting": "Сәлемдесу",
+    "rapport": "Байланыс орнату",
+    "needs_discovery": "Қажеттілікті анықтау",
+    "presentation": "Таныстырылым",
+    "objection_handling": "Қарсылықтармен жұмыс",
+    "next_action": "Келесі қадам",
+    "communication": "Коммуникация",
+    "closing": "Мәмілені аяқтау"
+  }
+}

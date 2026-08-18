@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { formatBytes, formatDate } from '../../entities/call/model'
 import { getCall } from '../../features/call-detail/api'
 import { ScoreOverview } from '../../features/call-detail/ScoreOverview'
@@ -15,6 +16,7 @@ import { LoadingLine } from '../../shared/ui/LoadingLine'
 
 export function CallDetailPage() {
   const { id } = useParams()
+  const { t, i18n } = useTranslation(['calls', 'common', 'errors'])
   const detail = useQuery({
     queryKey: ['call', id],
     queryFn: () => getCall(id ?? ''),
@@ -30,23 +32,23 @@ export function CallDetailPage() {
   return (
     <>
       <Link className="back-link" to="/calls">
-        ← Back to calls
+        ← {t('common:actions.back')}
       </Link>
       <PageHeader
-        eyebrow="CALL ANALYSIS"
-        title={data.call.originalFilename || 'Call detail'}
+        eyebrow={t('calls:header.detailEyebrow')}
+        title={data.call.originalFilename || t('calls:header.untitled')}
         action={<StatusPill status={data.call.status} />}
       />
       <div className="detail-meta">
-        <span>{formatDate(data.call.createdAt)}</span>
-        <span>{formatBytes(data.call.sizeBytes)}</span>
+        <span>{formatDate(data.call.createdAt, i18n.language)}</span>
+        <span>{formatBytes(data.call.sizeBytes, i18n.language)}</span>
         <span>{data.manager?.email ?? 'Manager'}</span>
       </div>
 
       {data.call.status === 'failed' && (
         <div className="alert alert-error">
-          <strong>Analysis couldn’t be completed.</strong>
-          <span>Please try uploading the recording again.</span>
+          <strong>{t('errors:viewError.detailFailedTitle')}</strong>
+          <span>{t('errors:viewError.detailFailedSub')}</span>
         </div>
       )}
 

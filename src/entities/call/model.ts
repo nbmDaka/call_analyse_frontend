@@ -1,5 +1,5 @@
 import type { User } from '../user/model'
-import { statusLabels } from '../../i18n/constants'
+import i18n from '../../i18n'
 
 export type CallStatus = 'uploaded' | 'queued' | 'transcribing' | 'transcribed' | 'analyzing' | 'completed' | 'failed'
 
@@ -74,17 +74,29 @@ export interface DashboardSummary {
   averageScore: number | null
 }
 
-export function statusLabel(status: CallStatus): string {
-  return statusLabels[status] ?? 'Unknown status'
+export function getIntlLocale(locale?: string): string {
+  const lang = locale || (i18n.language ? i18n.language.slice(0, 2) : 'ru')
+  return lang === 'kk' ? 'kk-KZ' : 'ru-RU'
 }
 
-export function formatDate(value: string): string {
+export function statusLabel(status: CallStatus, locale?: string): string {
+  const lang = locale || (i18n.language ? i18n.language.slice(0, 2) : 'ru')
+  const res = i18n.getResourceBundle(lang === 'kk' ? 'kk' : 'ru', 'calls')
+  return res?.status?.[status] || status
+}
+
+export function formatDate(value: string, locale?: string): string {
   if (!value) return '—'
   const date = new Date(value)
-  return Number.isNaN(date.valueOf()) ? value : new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(date)
+  if (Number.isNaN(date.valueOf())) return value
+  const targetLocale = getIntlLocale(locale)
+  return new Intl.DateTimeFormat(targetLocale, { month: 'short', day: 'numeric', year: 'numeric' }).format(date)
 }
 
-export function formatBytes(bytes: number): string {
+export function formatBytes(bytes: number, locale?: string): string {
+  const targetLocale = getIntlLocale(locale)
+  const formatter = new Intl.NumberFormat(targetLocale, { maximumFractionDigits: 1 })
   if (bytes < 1024) return `${bytes} B`
-  return bytes > 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`
+  if (bytes > 1024 * 1024) return `${formatter.format(bytes / 1024 / 1024)} MB`
+  return `${formatter.format(Math.round(bytes / 1024))} KB`
 }
