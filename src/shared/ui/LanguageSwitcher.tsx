@@ -14,8 +14,8 @@ export function LanguageSwitcher() {
         className={`button button-ghost ${currentLang === 'ru' ? 'active' : ''}`}
         onClick={() => changeLanguage('ru')}
         style={{
-          padding: '4px 8px',
-          fontSize: '11px',
+          padding: '4px 10px',
+          fontSize: '11.5px',
           fontWeight: currentLang === 'ru' ? 700 : 500,
           backgroundColor: currentLang === 'ru' ? 'var(--color-primary)' : 'transparent',
           color: currentLang === 'ru' ? '#ffffff' : 'var(--color-fg-muted)',
@@ -31,8 +31,8 @@ export function LanguageSwitcher() {
         className={`button button-ghost ${currentLang === 'kk' ? 'active' : ''}`}
         onClick={() => changeLanguage('kk')}
         style={{
-          padding: '4px 8px',
-          fontSize: '11px',
+          padding: '4px 10px',
+          fontSize: '11.5px',
           fontWeight: currentLang === 'kk' ? 700 : 500,
           backgroundColor: currentLang === 'kk' ? 'var(--color-primary)' : 'transparent',
           color: currentLang === 'kk' ? '#ffffff' : 'var(--color-fg-muted)',
