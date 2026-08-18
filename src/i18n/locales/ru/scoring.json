@@ -1,11 +1,11 @@
 {
   "header": {
-    "overallScore": "ОБЩИЙ БАЛЛ",
-    "aiFeedback": "ИИ-ОТЗЫВ",
+    "overallScore": "Общий балл",
+    "aiFeedback": "ИИ-отзыв",
     "analysisSummary": "Резюме анализа",
-    "scoringBreakdown": "ОЦЕНКА ПО КРИТЕРИЯМ",
+    "scoringBreakdown": "Оценка по критериям",
     "criteria": "Критерии",
-    "recommendedAction": "РЕКОМЕНДУЕМОЕ СЛЕДУЮЩЕЕ ДЕЙСТВИЕ"
+    "recommendedAction": "Рекомендуемое следующее действие"
   },
   "insights": {
     "needs": "Потребности клиента",

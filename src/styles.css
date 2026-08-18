@@ -7,9 +7,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap');
 
 :root {
-  /* Font Families — Easy, Modern, Hyper-Legible with Kazakh/Cyrillic Support */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  /* Font Families — Inter UI Font with Full Kazakh (Ә, Ғ, Қ, Ң, Ө, Ұ, Ү, Һ, І) & Russian Cyrillic Support */
+  --font-sans: 'Inter', 'Segoe UI', Arial, sans-serif;
+  --font-display: 'Inter', 'Segoe UI', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Color Palette — Loom-Inspired Light Mode (Default) */
@@ -240,11 +240,10 @@ a {
 }
 
 .sidebar-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-sidebar-muted);
   padding: 0 10px 8px;
 }
@@ -290,37 +289,30 @@ a {
   flex: 1;
 }
 
-.sidebar-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-bottom: 16px;
-}
-
-.theme-toggle-btn {
+.sidebar-controls-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
+  padding: 0 4px 12px;
+}
+
+.theme-toggle-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-sidebar-border);
   color: var(--color-fg-muted);
-  font-size: 12px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 
-.theme-toggle-btn:hover {
-  background: var(--color-surface-hover);
+.theme-toggle-icon-btn:hover {
+  background-color: var(--color-surface-hover);
   color: var(--color-fg);
-}
-
-.theme-toggle-btn svg {
-  width: 16px;
-  height: 16px;
 }
 
 .user-menu {
@@ -362,14 +354,13 @@ a {
 
 .user-meta span {
   color: var(--color-fg-subtle);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .icon-button {
-  margin-left: auto;
   border: 0;
   background: transparent;
   color: var(--color-fg-muted);
@@ -405,11 +396,10 @@ a {
 }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-family: var(--font-sans);
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-primary);
   margin-bottom: 6px;
   display: block;

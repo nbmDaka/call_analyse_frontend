@@ -30,7 +30,7 @@ describe('i18n localization module', () => {
     await changeLanguage('kk')
     expect(i18n.language).toBe('kk')
     expect(i18n.t('common:actions.uploadCall')).toBe('Қоңырауды жүктеу')
-    expect(i18n.t('dashboard:header.eyebrow')).toBe('ЖҰМЫС КЕҢІСТІГІН ШОЛУ')
+    expect(i18n.t('dashboard:header.eyebrow')).toBe('Жұмыс кеңістігін шолу')
   })
 
   it('3. Selected locale persists in localStorage under call-analyse.locale', async () => {

@@ -1,11 +1,11 @@
 {
   "header": {
-    "overallScore": "ЖАЛПЫ БАЛЛ",
-    "aiFeedback": "ЖИ ПІКІРІ",
+    "overallScore": "Жалпы балл",
+    "aiFeedback": "ЖИ пікірі",
     "analysisSummary": "Талдау түйіні",
-    "scoringBreakdown": "КРИТЕРИЙЛЕР БОЙЫНША БАҒАЛАУ",
+    "scoringBreakdown": "Критерийлер бойынша бағалау",
     "criteria": "Критерийлер",
-    "recommendedAction": "ҰСЫНЫЛАТЫН КЕЛЕСІ ӘРЕКЕТ"
+    "recommendedAction": "Ұсынылатын келесі әрекет"
   },
   "insights": {
     "needs": "Тұтынушының қажеттіліктері",

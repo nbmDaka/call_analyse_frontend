@@ -44,12 +44,15 @@ export function AppShell() {
 
         <div className="sidebar-spacer" />
 
-        <div className="sidebar-actions">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 4px' }}>
-            <LanguageSwitcher />
-          </div>
-          <button className="theme-toggle-btn" onClick={toggleTheme} title={theme === 'light' ? t('theme.darkTheme') : t('theme.lightTheme')}>
-            <span>{theme === 'light' ? t('theme.darkTheme') : t('theme.lightTheme')}</span>
+        <div className="sidebar-controls-footer">
+          <LanguageSwitcher />
+          <button
+            type="button"
+            className="icon-button theme-toggle-icon-btn"
+            onClick={toggleTheme}
+            title={theme === 'light' ? t('theme.darkTheme') : t('theme.lightTheme')}
+            aria-label={theme === 'light' ? t('theme.darkTheme') : t('theme.lightTheme')}
+          >
             {theme === 'light' ? <IconMoon /> : <IconSun />}
           </button>
         </div>
