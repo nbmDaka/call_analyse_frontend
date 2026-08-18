@@ -1,13 +1,7 @@
-export type Role = 'admin' | 'supervisor' | 'manager'
-export type CallStatus = 'uploaded' | 'queued' | 'transcribing' | 'transcribed' | 'analyzing' | 'completed' | 'failed'
+import type { User } from '../user/model'
+import { statusLabels } from '../../i18n/constants'
 
-export interface User {
-  id: string
-  email: string
-  role: Role
-  supervisorId?: string | null
-  createdAt?: string
-}
+export type CallStatus = 'uploaded' | 'queued' | 'transcribing' | 'transcribed' | 'analyzing' | 'completed' | 'failed'
 
 export interface Call {
   id: string
@@ -78,4 +72,19 @@ export interface DashboardSummary {
   completedCalls: number
   failedCalls: number
   averageScore: number | null
+}
+
+export function statusLabel(status: CallStatus): string {
+  return statusLabels[status] ?? 'Unknown status'
+}
+
+export function formatDate(value: string): string {
+  if (!value) return '—'
+  const date = new Date(value)
+  return Number.isNaN(date.valueOf()) ? value : new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(date)
+}
+
+export function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  return bytes > 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`
 }
