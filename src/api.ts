@@ -1,6 +1,6 @@
 import type { Analysis, Call, CallDetail, CallPage, CriterionResult, DashboardSummary, Role, User } from './types'
 
-const API_URL = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
+const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:8080').replace(/\/$/, '')
 const ACCESS_KEY = 'call-analyse.access-token'
 const REFRESH_KEY = 'call-analyse.refresh-token'
 const CRITERION_MAX: Record<string, number> = { greeting: 5, rapport: 10, needs_discovery: 20, presentation: 15, objection_handling: 20, next_action: 15, communication: 10, closing: 5 }
