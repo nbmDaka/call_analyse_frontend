@@ -9,7 +9,12 @@
     "supported": "Қолдау көрсетілетін форматтар: MP3, WAV, M4A",
     "start": "Талдауды бастау",
     "uploading": "Жүктелуде…",
-    "fileInfo": "{{size}} · {{type}}"
+    "fileInfo": "{{size}} · {{type}}",
+    "dragOverTitle": "Жүктеу үшін файлды босатыңыз",
+    "dragOverSub": "Жазба жүктеуге дайын",
+    "invalidFile": "Файл форматына қолдау көрсетілмейді. Рұқсат етілген: MP3, WAV, M4A",
+    "readyTitle": "Файл талдауға дайын",
+    "changeFile": "Файлды ауыстыру"
   },
   "sidebar": {
     "eyebrow": "КЕЛЕСІДЕ НЕ БОЛАДЫ",

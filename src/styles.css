@@ -928,6 +928,170 @@ tr:hover .row-arrow {
   font-size: 12.5px;
 }
 
+/* ==========================================================================
+   UPLOAD WORKFLOW & DROPZONE STATES
+   ========================================================================== */
+
+.upload-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.upload-card {
+  padding: 32px;
+}
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 32px;
+  background-color: var(--color-surface);
+  border: 2px dashed var(--color-card-border);
+  border-radius: var(--radius-lg);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  outline: none;
+}
+
+.drop-zone:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-hover);
+}
+
+.drop-zone:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
+}
+
+.drop-zone.dragging {
+  border-color: var(--color-primary);
+  border-style: dashed;
+  background-color: var(--color-primary-subtle);
+  transform: scale(1.01);
+}
+
+.drop-zone.has-file {
+  border-color: var(--color-primary);
+  border-style: solid;
+  background-color: var(--color-primary-subtle);
+}
+
+.drop-zone.has-error {
+  border-color: var(--status-failed-border);
+  background-color: var(--status-failed-bg);
+}
+
+.upload-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-subtle);
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  transition: transform 0.2s ease;
+}
+
+.drop-zone:hover .upload-icon {
+  transform: translateY(-2px);
+}
+
+.drop-zone h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-fg);
+  margin-bottom: 6px;
+}
+
+.drop-zone p {
+  color: var(--color-fg-muted);
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}
+
+.drop-zone small {
+  color: var(--color-fg-subtle);
+  font-size: 11.5px;
+  margin-top: 16px;
+  display: block;
+}
+
+.upload-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-line);
+}
+
+.info-card {
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.info-card .eyebrow {
+  margin-bottom: 16px;
+}
+
+.info-card ol {
+  list-style: none;
+  counter-reset: info-step;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.info-card li {
+  counter-increment: info-step;
+  position: relative;
+  padding-left: 36px;
+}
+
+.info-card li::before {
+  content: counter(info-step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.info-card li b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-fg);
+  margin-bottom: 2px;
+}
+
+.info-card li span {
+  display: block;
+  font-size: 12.5px;
+  color: var(--color-fg-muted);
+  line-height: 1.4;
+}
+
 /* AI Intelligence Surfaces */
 .ai-surface {
   background-color: var(--color-ai-bg);
@@ -941,6 +1105,9 @@ tr:hover .row-arrow {
 @media (max-width: 1024px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .upload-layout {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -971,3 +1138,4 @@ tr:hover .row-arrow {
     grid-template-columns: 1fr;
   }
 }
+

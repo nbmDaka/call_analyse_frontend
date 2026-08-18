@@ -9,7 +9,12 @@
     "supported": "Поддерживаемые форматы: MP3, WAV, M4A",
     "start": "Начать анализ",
     "uploading": "Загрузка…",
-    "fileInfo": "{{size}} · {{type}}"
+    "fileInfo": "{{size}} · {{type}}",
+    "dragOverTitle": "Отпустите файл для загрузки",
+    "dragOverSub": "Запись готова к загрузке",
+    "invalidFile": "Формат файла не поддерживается. Разрешены MP3, WAV, M4A",
+    "readyTitle": "Файл готов к анализу",
+    "changeFile": "Изменить файл"
   },
   "sidebar": {
     "eyebrow": "ЧТО ПРОИСХОДИТ ДАЛЕЕ",
