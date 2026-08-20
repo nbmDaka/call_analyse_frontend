@@ -20,10 +20,24 @@ export async function login(email: string, password: string): Promise<User> {
   return getMe()
 }
 
-export async function register(email: string, password: string): Promise<User> {
-  const pair = await request<TokenPair>('/api/v1/auth/register', { method: 'POST', body: JSON.stringify({ email, password }) }, false)
-  session.save(pair)
-  return getMe()
+export async function register(email: string, password: string): Promise<void> {
+	await request('/api/v1/auth/register', { method: 'POST', body: JSON.stringify({ email, password }) }, false)
+}
+
+export async function verifyEmail(token: string): Promise<void> {
+	await request(`/api/v1/auth/verify-email?token=${encodeURIComponent(token)}`, { method: 'GET' }, false)
+}
+
+export async function resendVerification(email: string): Promise<void> {
+	await request('/api/v1/auth/resend-verification', { method: 'POST', body: JSON.stringify({ email }) }, false)
+}
+
+export async function requestPasswordReset(email: string): Promise<void> {
+	await request('/api/v1/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }, false)
+}
+
+export async function resetPassword(token: string, password: string): Promise<void> {
+	await request('/api/v1/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }) }, false)
 }
 
 export async function logout(): Promise<void> {

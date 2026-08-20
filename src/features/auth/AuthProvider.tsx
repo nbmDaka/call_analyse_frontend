@@ -30,7 +30,7 @@ export function AuthProvider({ children, queryClient }: { children: React.ReactN
       setUser(await login(email, password))
     },
     async signUp(email: string, password: string) {
-      setUser(await register(email, password))
+      await register(email, password)
     },
     async signOut() {
       await logout()

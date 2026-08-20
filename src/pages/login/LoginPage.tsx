@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../features/auth/useAuth'
+import { requestPasswordReset } from '../../features/auth/api'
 import { LanguageSwitcher } from '../../shared/ui/LanguageSwitcher'
 
 function safeInternalPath(value: unknown) {
@@ -15,10 +16,11 @@ export function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation(['auth', 'common', 'errors'])
-  const [mode, setMode] = useState<'login' | 'register'>('login')
+  const [mode, setMode] = useState<'login' | 'register' | 'forgot'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [notice, setNotice] = useState('')
   const [busy, setBusy] = useState(false)
 
   if (user) return <Navigate to="/dashboard" replace />
@@ -30,10 +32,19 @@ export function LoginPage() {
     try {
       if (mode === 'login') {
         await signIn(email, password)
-      } else {
+        navigate(safeInternalPath((location.state as { from?: unknown } | null)?.from), { replace: true })
+      } else if (mode === 'register') {
         await signUp(email, password)
+        setNotice('Аккаунт создан. Проверьте почту и перейдите по ссылке из письма.')
+        setMode('login')
+        setPassword('')
+        return
+      } else {
+        await requestPasswordReset(email)
+        setNotice('Если такой адрес зарегистрирован, письмо для сброса пароля уже отправлено.')
+        setMode('login')
+        return
       }
-      navigate(safeInternalPath((location.state as { from?: unknown } | null)?.from), { replace: true })
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : mode === 'login' ? t('auth:button.signingIn') : t('auth:button.creatingAccount'))
     } finally {
@@ -54,8 +65,8 @@ export function LoginPage() {
           <LanguageSwitcher />
         </div>
 
-        <h1>{mode === 'login' ? t('auth:title.login') : t('auth:title.register')}</h1>
-        <p className="muted">{mode === 'login' ? t('auth:sub.login') : t('auth:sub.register')}</p>
+        <h1>{mode === 'login' ? t('auth:title.login') : mode === 'register' ? t('auth:title.register') : 'Сброс пароля'}</h1>
+        <p className="muted">{mode === 'login' ? t('auth:sub.login') : mode === 'register' ? t('auth:sub.register') : 'Введите email, и мы отправим ссылку для сброса пароля.'}</p>
 
         <form onSubmit={submit} className="stack">
           <label>
@@ -69,7 +80,7 @@ export function LoginPage() {
               placeholder={t('auth:field.emailPlaceholder')}
             />
           </label>
-          <label>
+          {mode !== 'forgot' && <label>
             {t('auth:field.password')}
             <input
               type="password"
@@ -79,10 +90,13 @@ export function LoginPage() {
               required
               placeholder={t('auth:field.passwordPlaceholder')}
             />
-          </label>
+          </label>}
           {error && <p className="form-error" role="alert">{error}</p>}
+          {notice && <p role="status">{notice}</p>}
           <button className="button button-primary" style={{ padding: '10px 18px', fontSize: '14px', marginTop: '8px' }} disabled={busy}>
-            {busy
+            {mode === 'forgot'
+              ? busy ? 'Отправка…' : 'Отправить ссылку'
+              : busy
               ? mode === 'login'
                 ? t('auth:button.signingIn')
                 : t('auth:button.creatingAccount')
@@ -90,18 +104,31 @@ export function LoginPage() {
                 ? t('auth:button.signIn')
                 : t('auth:button.signUp')}
           </button>
+          {mode === 'login' && <button
+            type="button"
+            className="button button-ghost"
+            style={{ padding: '0 4px', textDecoration: 'underline', display: 'inline-flex', alignSelf: 'center' }}
+            onClick={() => {
+              setMode('forgot')
+              setError('')
+              setNotice('')
+            }}
+          >
+            Забыли пароль?
+          </button>}
           <p className="muted" style={{ fontSize: '13px', marginTop: '12px', textAlign: 'center' }}>
-            {mode === 'login' ? t('auth:switch.noAccount') : t('auth:switch.hasAccount')}
+            {mode === 'forgot' ? 'Вспомнили пароль? ' : mode === 'login' ? t('auth:switch.noAccount') : t('auth:switch.hasAccount')}
             <button
               type="button"
               className="button button-ghost"
               style={{ padding: '0 4px', textDecoration: 'underline', display: 'inline-flex' }}
               onClick={() => {
-                setMode(mode === 'login' ? 'register' : 'login')
+                setMode(mode === 'forgot' ? 'login' : mode === 'login' ? 'register' : 'login')
                 setError('')
+                setNotice('')
               }}
             >
-              {mode === 'login' ? t('auth:switch.toSignUp') : t('auth:switch.toSignIn')}
+              {mode === 'forgot' ? 'Войти' : mode === 'login' ? t('auth:switch.toSignUp') : t('auth:switch.toSignIn')}
             </button>
           </p>
         </form>

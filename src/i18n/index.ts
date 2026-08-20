@@ -40,7 +40,9 @@ export const resources = {
 } as const
 
 export function detectInitialLocale(): SupportedLocale {
-  const saved = localStorage.getItem(LOCALE_STORAGE_KEY)
+  const saved = typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function'
+    ? localStorage.getItem(LOCALE_STORAGE_KEY)
+    : null
   if (saved === 'ru' || saved === 'kk') return saved
 
   const browserLang = typeof navigator !== 'undefined' ? navigator.language || (navigator as { userLanguage?: string }).userLanguage || '' : ''
@@ -66,12 +68,16 @@ i18n.use(initReactI18next).init({
 
 i18n.on('languageChanged', (lng: string) => {
   if (lng === 'ru' || lng === 'kk') {
-    localStorage.setItem(LOCALE_STORAGE_KEY, lng)
+    if (typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function') {
+      localStorage.setItem(LOCALE_STORAGE_KEY, lng)
+    }
   }
 })
 
 export function changeLanguage(locale: SupportedLocale): Promise<unknown> {
-  localStorage.setItem(LOCALE_STORAGE_KEY, locale)
+  if (typeof localStorage !== 'undefined' && typeof localStorage.setItem === 'function') {
+    localStorage.setItem(LOCALE_STORAGE_KEY, locale)
+  }
   return i18n.changeLanguage(locale)
 }
 
