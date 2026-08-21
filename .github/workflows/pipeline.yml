@@ -89,7 +89,7 @@ jobs:
           rsync -az -e "ssh -o BatchMode=yes -p ${DEPLOY_PORT:-9865}" \
             Dockerfile docker-compose.yml nginx.conf \
             "$DEPLOY_USER@$DEPLOY_HOST:/home/nurdaulet/apps/call-analyse-frontend/"
-          ssh -o BatchMode=yes -p "${DEPLOY_PORT:-9865}" "$DEPLOY_USER@$DEPLOY_HOST" <<'REMOTE'
+          ssh -o BatchMode=yes -p "${DEPLOY_PORT:-9865}" "$DEPLOY_USER@$DEPLOY_HOST" bash -s <<'REMOTE'
           set -e
           cd /home/nurdaulet/apps/call-analyse-frontend
           docker compose up -d --build --remove-orphans
