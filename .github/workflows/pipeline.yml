@@ -79,7 +79,7 @@ jobs:
           DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
         run: |
-          ssh -o BatchMode=yes -p "${DEPLOY_PORT:-22}" "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh -o BatchMode=yes -p "${DEPLOY_PORT:-9865}" "$DEPLOY_USER@$DEPLOY_HOST" \
             'mkdir -p /home/nurdaulet/apps/call-analyse-frontend'
-          rsync -az --delete -e "ssh -o BatchMode=yes -p ${DEPLOY_PORT:-22}" \
+          rsync -az --delete -e "ssh -o BatchMode=yes -p ${DEPLOY_PORT:-9865}" \
             dist/ "$DEPLOY_USER@$DEPLOY_HOST:/home/nurdaulet/apps/call-analyse-frontend/"
