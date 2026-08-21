@@ -26,8 +26,8 @@ export async function setupAuthenticatedSession(page: Page, user: MockUser = { i
   // Navigate to login page first to establish valid origin for localStorage
   await page.goto('/login')
   await page.evaluate(userData => {
-    localStorage.setItem('call-analyse.auth.user', JSON.stringify(userData))
-    localStorage.setItem('call-analyse.auth.token', 'mock-access-token')
+    localStorage.setItem('callwise.auth.user', JSON.stringify(userData))
+    localStorage.setItem('callwise.auth.token', 'mock-access-token')
   }, user)
 }
 
@@ -82,7 +82,7 @@ export function mockCallsAPI(page: Page) {
           transcript: {
             text: 'Здравствуйте! Добрый день.',
             segments: [
-              { speaker: 'manager', text: 'Здравствуйте! Меня зовут Алексей, компания Call Analyse.', startSeconds: 0 },
+              { speaker: 'manager', text: 'Здравствуйте! Меня зовут Алексей, компания Callwise.', startSeconds: 0 },
               { speaker: 'client', text: 'Добрый день! Подскажите стоимость вашей платформы.', startSeconds: 4 },
             ],
           },

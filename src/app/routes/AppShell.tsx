@@ -10,14 +10,14 @@ export function AppShell() {
   const navigate = useNavigate()
   const { t } = useTranslation('common')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const saved = localStorage.getItem('call-analyse.theme')
+    const saved = localStorage.getItem('callwise.theme')
     if (saved === 'light' || saved === 'dark') return saved
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   })
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('call-analyse.theme', theme)
+    localStorage.setItem('callwise.theme', theme)
   }, [theme])
 
   const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
@@ -26,7 +26,7 @@ export function AppShell() {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="logo">
-          <span className="brand-mark small">CA</span>
+          <span className="brand-mark small">CW</span>
           <span>{t('branding.appName')}</span>
         </div>
 

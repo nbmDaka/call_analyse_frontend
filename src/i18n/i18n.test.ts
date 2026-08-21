@@ -33,7 +33,7 @@ describe('i18n localization module', () => {
     expect(i18n.t('dashboard:header.eyebrow')).toBe('Жұмыс кеңістігін шолу')
   })
 
-  it('3. Selected locale persists in localStorage under call-analyse.locale', async () => {
+  it('3. Selected locale persists in localStorage under callwise.locale', async () => {
     await changeLanguage('kk')
     expect(localStorage.getItem(LOCALE_STORAGE_KEY)).toBe('kk')
     await changeLanguage('ru')

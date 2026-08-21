@@ -57,9 +57,9 @@ export function LoginPage() {
       <section className="auth-card">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div className="brand-mark small">CA</div>
+            <div className="brand-mark small">CW</div>
             <span style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '15px', letterSpacing: '-0.01em', color: 'var(--color-fg)' }}>
-              Call Analyse
+              Callwise
             </span>
           </div>
           <LanguageSwitcher />

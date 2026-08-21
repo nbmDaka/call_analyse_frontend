@@ -1,8 +1,8 @@
 import type { TokenPair } from './types'
 
 export const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:8080').replace(/\/$/, '')
-export const ACCESS_KEY = 'call-analyse.access-token'
-export const REFRESH_KEY = 'call-analyse.refresh-token'
+export const ACCESS_KEY = 'callwise.access-token'
+export const REFRESH_KEY = 'callwise.refresh-token'
 
 let refreshPromise: Promise<boolean> | null = null
 

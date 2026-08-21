@@ -1,7 +1,7 @@
 export type SupportedLocale = 'ru' | 'kk'
 
 export const DEFAULT_LOCALE: SupportedLocale = 'ru'
-export const LOCALE_STORAGE_KEY = 'call-analyse.locale'
+export const LOCALE_STORAGE_KEY = 'callwise.locale'
 
 export interface TranslationNamespaces {
   common: typeof import('./locales/ru/common.json')
