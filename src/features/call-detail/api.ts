@@ -26,8 +26,13 @@ export function parseDetail(response: Record<string, unknown>): CallDetail {
             field<Analysis['criterionResults']>(rawAnalysis, 'criterion_results', 'criterionResults', 'CriterionResults') ?? {}
           ).map(([key, result]) => [key, { ...(result as CriterionResult), max: criteriaMax[key] }])
         ),
+        roleMapping: field<Analysis['roleMapping']>(rawAnalysis, 'role_mapping', 'roleMapping', 'RoleMapping'),
+        speechAnalytics: field<Analysis['speechAnalytics']>(rawAnalysis, 'speech_analytics', 'speechAnalytics', 'SpeechAnalytics'),
+        violations: field<Analysis['violations']>(rawAnalysis, 'violations', 'Violations') ?? [],
+        actionableCoaching: field<Analysis['actionableCoaching']>(rawAnalysis, 'actionable_coaching', 'actionableCoaching', 'ActionableCoaching') ?? [],
       }
     : (rawAnalysis as null | undefined)
+
 
   const score = rawScore
     ? {

@@ -1780,4 +1780,193 @@ tr:hover .row-arrow {
   }
 }
 
+/* ==========================================================================
+   SPEECH ANALYTICS & VIOLATIONS (Task 10)
+   ========================================================================== */
+
+.speech-analytics-card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+.speech-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.speech-metric-box {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.speech-metric-box .metric-label {
+  font-size: 11.5px;
+  color: var(--color-fg-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.speech-metric-box .metric-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-fg);
+  font-family: var(--font-display);
+}
+
+.talk-ratio-container {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+}
+
+.talk-ratio-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.talk-ratio-bar {
+  display: flex;
+  height: 10px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background-color: var(--color-surface-muted);
+}
+
+.talk-ratio-manager {
+  background-color: var(--color-primary);
+  transition: width 0.4s ease;
+}
+
+.talk-ratio-client {
+  background-color: #38bdf8;
+  transition: width 0.4s ease;
+}
+
+.violations-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.violation-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  border-left: 4px solid var(--status-failed-fg);
+}
+
+.violation-card.severity-high {
+  border-left-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.03);
+}
+
+.violation-card.severity-medium {
+  border-left-color: #f59e0b;
+  background-color: rgba(245, 158, 11, 0.03);
+}
+
+.violation-card.severity-low {
+  border-left-color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.03);
+}
+
+.violation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.violation-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-fg);
+}
+
+.severity-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.severity-tag.high {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.severity-tag.medium {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.severity-tag.low {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.violation-quote {
+  font-style: italic;
+  color: var(--color-fg-muted);
+  font-size: 13px;
+  margin: 6px 0 10px;
+  padding-left: 12px;
+  border-left: 2px solid var(--color-card-border);
+}
+
+.violation-advice {
+  font-size: 12.5px;
+  color: var(--color-fg);
+  background-color: var(--color-surface-muted);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.coaching-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-top: 16px;
+}
+
+.coaching-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+
+.coaching-card ul {
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-fg);
+}
+
+
 

@@ -45,6 +45,51 @@ export interface CriterionResult {
   feedback?: string
 }
 
+
+export interface RoleMapping {
+
+  managerSpeaker?: string
+  clientSpeaker?: string
+}
+
+export interface TalkToListenRatio {
+  managerPercentage: number
+  clientPercentage: number
+}
+
+export interface AwkwardPause {
+  startSeconds: number
+  endSeconds: number
+  durationSeconds: number
+}
+
+export interface Interruption {
+  timestampSeconds: number
+  interruptedBy: string
+  context: string
+}
+
+export interface EmotionalTone {
+  managerTone: string
+  clientTone: string
+  sentimentShift: string
+}
+
+export interface SpeechAnalytics {
+  talkToListen?: TalkToListenRatio
+  awkwardPauses?: AwkwardPause[]
+  interruptions?: Interruption[]
+  emotionalTone?: EmotionalTone
+}
+
+export interface Violation {
+  severity: 'low' | 'medium' | 'high'
+  title: string
+  quote: string
+  timestampSeconds?: number
+  fixAdvice: string
+}
+
 export interface Analysis {
   summary: string
   needs: string[]
@@ -54,7 +99,12 @@ export interface Analysis {
   strengths: string[]
   nextAction: string
   criterionResults: Record<string, CriterionResult>
+  roleMapping?: RoleMapping
+  speechAnalytics?: SpeechAnalytics
+  violations?: Violation[]
+  actionableCoaching?: string[]
 }
+
 
 export interface Score {
   total: number
