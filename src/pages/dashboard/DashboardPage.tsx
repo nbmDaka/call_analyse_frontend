@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../features/auth/useAuth'
-import { canUpload } from '../../entities/user/model'
+import { canUploadInWorkspace } from '../../entities/workspace/model'
+import { useWorkspace } from '../../features/workspaces/useWorkspace'
 import { getDashboard } from '../../features/dashboard/api'
 import { getCalls } from '../../features/calls-list/api'
 import { StatsGrid } from '../../features/dashboard/StatsGrid'
@@ -13,10 +13,11 @@ import { ErrorState } from '../../shared/ui/ErrorState'
 import { IconUpload } from '../../shared/ui/Icons'
 
 export function DashboardPage() {
-  const { user } = useAuth()
+  const { activeWorkspace } = useWorkspace()
   const { t } = useTranslation(['dashboard', 'common'])
-  const summary = useQuery({ queryKey: ['dashboard'], queryFn: getDashboard })
-  const calls = useQuery({ queryKey: ['calls', 1], queryFn: () => getCalls(1, 5) })
+  const workspaceId = activeWorkspace?.id ?? ''
+  const summary = useQuery({ queryKey: ['dashboard', workspaceId], queryFn: () => getDashboard(workspaceId), enabled: Boolean(workspaceId) })
+  const calls = useQuery({ queryKey: ['calls', workspaceId, 1], queryFn: () => getCalls(workspaceId, 1, 5), enabled: Boolean(workspaceId) })
 
   return (
     <>
@@ -24,7 +25,7 @@ export function DashboardPage() {
         eyebrow={t('dashboard:header.eyebrow')}
         title={t('dashboard:header.title')}
         action={
-          canUpload(user?.role) && (
+          canUploadInWorkspace(activeWorkspace) && (
             <Link className="button button-primary" to="/calls/new">
               <IconUpload />
               {t('common:actions.analyseCall')}

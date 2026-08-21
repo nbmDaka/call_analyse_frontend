@@ -9,6 +9,8 @@ export function parseUser(value: unknown): User {
     id: field<string>(item, 'id', 'ID') ?? '',
     email: field<string>(item, 'email', 'Email') ?? '',
     role: field<Role>(item, 'role', 'Role') ?? 'manager',
+    platformRole: field<User['platformRole']>(item, 'platform_role', 'platformRole', 'PlatformRole') ?? 'user',
+    status: field<User['status']>(item, 'status', 'Status') ?? 'active',
     supervisorId: field<string | null>(item, 'supervisorId', 'SupervisorID'),
     createdAt: field<string>(item, 'createdAt', 'CreatedAt'),
   }

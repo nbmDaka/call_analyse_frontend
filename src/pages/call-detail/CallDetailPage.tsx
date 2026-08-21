@@ -13,14 +13,16 @@ import { PageHeader } from '../../shared/ui/PageHeader'
 import { StatusPill } from '../../shared/ui/StatusPill'
 import { ErrorState } from '../../shared/ui/ErrorState'
 import { LoadingLine } from '../../shared/ui/LoadingLine'
+import { useWorkspace } from '../../features/workspaces/useWorkspace'
 
 export function CallDetailPage() {
   const { id } = useParams()
+  const { activeWorkspace } = useWorkspace()
   const { t, i18n } = useTranslation(['calls', 'common', 'errors'])
   const detail = useQuery({
-    queryKey: ['call', id],
-    queryFn: () => getCall(id ?? ''),
-    enabled: Boolean(id),
+    queryKey: ['call', activeWorkspace?.id, id],
+    queryFn: () => getCall(activeWorkspace?.id ?? '', id ?? ''),
+    enabled: Boolean(id && activeWorkspace?.id),
     refetchInterval: query => (['completed', 'failed'].includes(query.state.data?.call.status ?? '') ? false : 4000),
   })
 

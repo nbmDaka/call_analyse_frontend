@@ -239,6 +239,39 @@ a {
   gap: 4px;
 }
 
+.workspace-switcher {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid var(--color-sidebar-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-fg);
+  padding: 0 10px;
+  margin-bottom: 8px;
+}
+
+.workspace-banner { margin-bottom: 20px; }
+
+.member-form {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 180px auto;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.member-form input, .member-form select {
+  min-height: 40px;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: 0 12px;
+}
+
+@media (max-width: 768px) {
+  .member-form { grid-template-columns: 1fr; }
+}
+
 .sidebar-label {
   font-family: var(--font-sans);
   font-size: 11.5px;

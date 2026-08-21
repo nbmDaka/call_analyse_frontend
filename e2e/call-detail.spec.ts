@@ -19,6 +19,6 @@ test.describe('E2E Call Detail Experience', () => {
 
     await page.goto('/calls/call-102')
     await expect(page.getByText('support_onboarding_call.wav')).toBeVisible()
-    await expect(page.getByText(/Транскрибация|Мәтінге айналдыруда/i)).toBeVisible()
+    await expect(page.getByText(/Транскрибация|Мәтінге айналдыруда/i).first()).toBeVisible()
   })
 })

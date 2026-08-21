@@ -1,16 +1,16 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../features/auth/useAuth'
-import { canUpload } from '../../entities/user/model'
+import { canUploadInWorkspace } from '../../entities/workspace/model'
+import { useWorkspace } from '../../features/workspaces/useWorkspace'
 import { UploadDropzone } from '../../features/upload-call/UploadDropzone'
 import { PageHeader } from '../../shared/ui/PageHeader'
 
 export function UploadPage() {
-  const { user } = useAuth()
+  const { activeWorkspace } = useWorkspace()
   const { t } = useTranslation('upload')
 
-  if (!canUpload(user?.role)) return <Navigate to="/calls" replace />
+  if (!canUploadInWorkspace(activeWorkspace)) return <Navigate to="/calls" replace />
 
   return (
     <>

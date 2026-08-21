@@ -18,7 +18,6 @@ test.describe('E2E Theme (Light / Dark) Workflows', () => {
 
     // Reload page to verify persistence
     await page.reload()
-    const persistedTheme = await page.locator('html').getAttribute('data-theme')
-    expect(persistedTheme).toBe(themeAttribute)
+    await expect(page.locator('html')).toHaveAttribute('data-theme', themeAttribute ?? 'light')
   })
 })

@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '../../features/auth/useAuth'
-import { canUpload } from '../../entities/user/model'
+import { canUploadInWorkspace } from '../../entities/workspace/model'
+import { useWorkspace } from '../../features/workspaces/useWorkspace'
 import { getCalls } from '../../features/calls-list/api'
 import { CallTable } from '../../features/calls-list/CallTable'
 import { PageHeader } from '../../shared/ui/PageHeader'
@@ -12,10 +12,11 @@ import { LoadingLine } from '../../shared/ui/LoadingLine'
 import { IconUpload } from '../../shared/ui/Icons'
 
 export function CallsPage() {
-  const { user } = useAuth()
+  const { activeWorkspace } = useWorkspace()
   const { t } = useTranslation(['calls', 'common'])
   const [page, setPage] = useState(1)
-  const calls = useQuery({ queryKey: ['calls', page], queryFn: () => getCalls(page) })
+  const workspaceId = activeWorkspace?.id ?? ''
+  const calls = useQuery({ queryKey: ['calls', workspaceId, page], queryFn: () => getCalls(workspaceId, page), enabled: Boolean(workspaceId) })
 
   return (
     <>
@@ -23,7 +24,7 @@ export function CallsPage() {
         eyebrow={t('calls:header.eyebrow')}
         title={t('calls:header.title')}
         action={
-          canUpload(user?.role) && (
+          canUploadInWorkspace(activeWorkspace) && (
             <Link className="button button-primary" to="/calls/new">
               <IconUpload />
               {t('common:actions.uploadCall')}

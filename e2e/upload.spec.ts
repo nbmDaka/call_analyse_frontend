@@ -6,7 +6,7 @@ test.describe('E2E Upload Workflow', () => {
     await setupAuthenticatedSession(page)
     mockCallsAPI(page)
 
-    await page.goto('/upload')
+    await page.goto('/calls/new')
     await expect(page.getByRole('heading', { level: 2 })).toBeVisible()
 
     // Upload mock file input
@@ -25,7 +25,7 @@ test.describe('E2E Upload Workflow', () => {
     await setupAuthenticatedSession(page)
     mockCallsAPI(page)
 
-    await page.goto('/upload')
+    await page.goto('/calls/new')
 
     const fileInput = page.locator('input[type="file"]')
     await fileInput.setInputFiles({

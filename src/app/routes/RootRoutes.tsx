@@ -8,6 +8,8 @@ import { UploadPage } from '../../pages/upload/UploadPage'
 import { CallDetailPage } from '../../pages/call-detail/CallDetailPage'
 import { ProtectedRoute } from './ProtectedRoute'
 import { AppShell } from './AppShell'
+import { MembersPage } from '../../pages/members/MembersPage'
+import { PlatformPage } from '../../pages/platform/PlatformPage'
 
 export function RootRoutes() {
   return (
@@ -21,6 +23,8 @@ export function RootRoutes() {
           <Route path="/calls" element={<CallsPage />} />
           <Route path="/calls/new" element={<UploadPage />} />
           <Route path="/calls/:id" element={<CallDetailPage />} />
+          <Route path="/members" element={<MembersPage />} />
+          <Route path="/platform" element={<PlatformPage />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Route>

@@ -5,6 +5,9 @@ export function parseCall(value: unknown): Call {
   const item = value as Record<string, unknown>
   return {
     id: field<string>(item, 'id', 'ID') ?? '',
+    workspaceId: field<string>(item, 'workspace_id', 'workspaceId', 'WorkspaceID'),
+    ownerUserId: field<string>(item, 'owner_user_id', 'ownerUserId', 'OwnerUserID'),
+    uploadedByUserId: field<string>(item, 'uploaded_by_user_id', 'uploadedByUserId', 'UploadedByUserID'),
     managerId: field<string>(item, 'managerId', 'ManagerID') ?? '',
     status: field<Call['status']>(item, 'status', 'Status') ?? 'uploaded',
     originalFilename: field<string>(item, 'originalFilename', 'OriginalFilename') ?? '',
@@ -17,8 +20,12 @@ export function parseCall(value: unknown): Call {
   }
 }
 
-export async function getCalls(page = 1, pageSize = 20): Promise<CallPage> {
-  const response = await request<Record<string, unknown>>(`/api/v1/calls?page=${page}&page_size=${pageSize}`)
+export async function getCalls(workspaceIdOrPage: string | number = '', pageOrSize = 1, requestedPageSize = 20): Promise<CallPage> {
+  const workspaceId = typeof workspaceIdOrPage === 'string' ? workspaceIdOrPage : ''
+  const page = typeof workspaceIdOrPage === 'number' ? workspaceIdOrPage : pageOrSize
+  const pageSize = typeof workspaceIdOrPage === 'number' ? pageOrSize : requestedPageSize
+  const path = workspaceId ? `/api/v1/workspaces/${workspaceId}/calls` : '/api/v1/calls'
+  const response = await request<Record<string, unknown>>(`${path}?page=${page}&page_size=${pageSize}`)
   const calls = (field<unknown[]>(response, 'calls', 'Calls') ?? []).map(parseCall)
   return {
     calls,

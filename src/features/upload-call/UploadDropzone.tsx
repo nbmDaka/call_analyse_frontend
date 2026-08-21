@@ -5,19 +5,21 @@ import { useTranslation } from 'react-i18next'
 import { formatBytes } from '../../entities/call/model'
 import { IconUpload } from '../../shared/ui/Icons'
 import { uploadCall } from './api'
+import { useWorkspace } from '../workspaces/useWorkspace'
 
 export function UploadDropzone() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { activeWorkspace } = useWorkspace()
   const { t, i18n } = useTranslation(['upload', 'common', 'errors'])
   const [file, setFile] = useState<File | null>(null)
   const [dragging, setDragging] = useState(false)
   const [validationError, setValidationError] = useState('')
 
   const mutation = useMutation({
-    mutationFn: uploadCall,
+    mutationFn: (file: File) => uploadCall(activeWorkspace?.id ?? '', file),
     onSuccess: call => {
-      queryClient.invalidateQueries({ queryKey: ['calls'] })
+      queryClient.invalidateQueries({ queryKey: ['calls', activeWorkspace?.id] })
       navigate(`/calls/${call.id}`)
     },
   })

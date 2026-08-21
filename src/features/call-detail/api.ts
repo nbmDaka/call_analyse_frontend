@@ -50,6 +50,7 @@ export function parseDetail(response: Record<string, unknown>): CallDetail {
   }
 }
 
-export async function getCall(id: string): Promise<CallDetail> {
-  return parseDetail(await request<Record<string, unknown>>(`/api/v1/calls/${id}`))
+export async function getCall(workspaceIdOrCallId: string, callId?: string): Promise<CallDetail> {
+  const path = callId ? `/api/v1/workspaces/${workspaceIdOrCallId}/calls/${callId}` : `/api/v1/calls/${workspaceIdOrCallId}`
+  return parseDetail(await request<Record<string, unknown>>(path))
 }

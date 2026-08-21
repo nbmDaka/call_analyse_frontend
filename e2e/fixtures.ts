@@ -4,34 +4,35 @@ export interface MockUser {
   id: string
   email: string
   role: 'admin' | 'manager' | 'supervisor' | 'operator'
+  platformRole?: 'user' | 'super_admin'
 }
 
 export async function setupAuthenticatedSession(page: Page, user: MockUser = { id: 'usr-1', email: 'manager@company.com', role: 'manager' }) {
-  await page.route('/api/auth/me', route => {
+  await page.route('**/api/v1/me', route => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ user }),
+      body: JSON.stringify({ user: { ...user, platform_role: user.platformRole ?? 'user', status: 'active' } }),
     })
   })
 
-  await page.route('/api/auth/refresh', route => {
+  await page.route('**/api/v1/auth/refresh', route => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ token: 'mock-access-token', user }),
+      body: JSON.stringify({ access_token: 'mock-access-token', refresh_token: 'mock-refresh-token' }),
     })
   })
 
   // Navigate to login page first to establish valid origin for localStorage
   await page.goto('/login')
   await page.evaluate(userData => {
-    localStorage.setItem('callwise.auth.user', JSON.stringify(userData))
-    localStorage.setItem('callwise.auth.token', 'mock-access-token')
+    localStorage.setItem('callwise.access-token', 'mock-access-token')
+    localStorage.setItem('callwise.refresh-token', 'mock-refresh-token')
   }, user)
 }
 
-export function mockCallsAPI(page: Page) {
+export function mockCallsAPI(page: Page, workspaceRole: 'owner' | 'admin' | 'manager' | 'supervisor' = 'manager') {
   const sampleCalls = [
     {
       id: 'call-101',
@@ -57,9 +58,17 @@ export function mockCallsAPI(page: Page) {
     },
   ]
 
-  page.route('/api/calls*', route => {
+  page.route('**/api/v1/workspaces', route => {
+    if (route.request().method() !== 'GET') return route.fallback()
+    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ workspaces: [{
+      id: 'ws-1', name: 'Company', type: 'company', status: 'active', owner_user_id: 'usr-owner',
+      membership_id: 'membership-1', membership_role: workspaceRole, membership_status: 'active',
+    }] }) })
+  })
+
+  page.route('**/api/v1/workspaces/ws-1/calls**', route => {
     const url = route.request().url()
-    if (url.includes('/api/calls/call-101')) {
+    if (url.includes('/calls/call-101')) {
       route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -88,7 +97,7 @@ export function mockCallsAPI(page: Page) {
           },
         }),
       })
-    } else if (url.includes('/api/calls/call-102')) {
+    } else if (url.includes('/calls/call-102')) {
       route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -109,22 +118,18 @@ export function mockCallsAPI(page: Page) {
           total: 2,
           page: 1,
           perPage: 10,
-          totalPages: 1,
+          totalPages: 2,
         }),
       })
     }
   })
 
-  page.route('/api/dashboard*', route => {
+  page.route('**/api/v1/workspaces/ws-1/dashboard', route => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify({
-        totalCalls: 42,
-        completedCalls: 38,
-        failedCalls: 4,
-        averageScore: 84.5,
-        recentCalls: sampleCalls,
+        summary: { total_calls: 42, completed_calls: 38, failed_calls: 4, average_score: 84.5 },
       }),
     })
   })

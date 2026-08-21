@@ -5,6 +5,9 @@ export type CallStatus = 'uploaded' | 'queued' | 'transcribing' | 'transcribed' 
 
 export interface Call {
   id: string
+  workspaceId?: string
+  ownerUserId?: string
+  uploadedByUserId?: string
   managerId: string
   status: CallStatus
   originalFilename: string

@@ -10,18 +10,18 @@ test.describe('E2E Auth & Navigation Workflows', () => {
   test('2. Successful login with valid credentials navigates to /dashboard', async ({ page }) => {
     const mockUser = { id: 'usr-1', email: 'manager@company.com', role: 'manager' }
     
-    await page.route('/api/auth/login', route => {
+    await page.route('**/api/v1/auth/login', route => {
       route.fulfill({
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          token: 'mock-access-token',
-          user: mockUser,
+          access_token: 'mock-access-token',
+          refresh_token: 'mock-refresh-token',
         }),
       })
     })
 
-    await page.route('/api/auth/me', route => {
+    await page.route('**/api/v1/me', route => {
       route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -40,11 +40,11 @@ test.describe('E2E Auth & Navigation Workflows', () => {
   })
 
   test('3. Invalid login displays localized error message', async ({ page }) => {
-    await page.route('/api/auth/login', route => {
+    await page.route('**/api/v1/auth/login', route => {
       route.fulfill({
         status: 401,
         contentType: 'application/json',
-        body: JSON.stringify({ message: 'Неверный логин или пароль' }),
+        body: JSON.stringify({ error: { message: 'Неверный логин или пароль' } }),
       })
     })
 
