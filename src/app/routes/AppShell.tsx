@@ -7,6 +7,8 @@ import { IconCalls, IconLogout, IconMoon, IconOverview, IconSun } from '../../sh
 import { useWorkspace } from '../../features/workspaces/useWorkspace'
 import { canManageMembers } from '../../entities/workspace/model'
 import { LoadingLine } from '../../shared/ui/LoadingLine'
+import { CustomSelect } from '../../shared/ui/CustomSelect'
+import { CreateWorkspaceModal } from '../../features/workspaces/CreateWorkspaceModal'
 
 export function AppShell() {
   const { user, signOut } = useAuth()
@@ -14,11 +16,27 @@ export function AppShell() {
   const location = useLocation()
   const { workspaces, activeWorkspace, loading: workspacesLoading, error: workspacesError, selectWorkspace } = useWorkspace()
   const { t } = useTranslation('common')
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const saved = localStorage.getItem('callwise.theme')
     if (saved === 'light' || saved === 'dark') return saved
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   })
+
+  const workspaceOptions = React.useMemo(() => {
+    const list = []
+    if (!activeWorkspace) {
+      list.push({ value: '', label: t('workspace.none') })
+    }
+    return list.concat(
+      workspaces.map(item => ({
+        value: item.id,
+        label: item.name,
+        badge: t(`workspace.type.${item.type}`),
+        disabled: item.membershipStatus !== 'active',
+      }))
+    )
+  }, [workspaces, activeWorkspace, t])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -37,10 +55,21 @@ export function AppShell() {
 
         <div className="sidebar-section">
           <span className="sidebar-label">{t('nav.workspace')}</span>
-          <select className="workspace-switcher" aria-label={t('workspace.switcher')} value={activeWorkspace?.id ?? ''} onChange={event => selectWorkspace(event.target.value)}>
-            {!activeWorkspace && <option value="">{t('workspace.none')}</option>}
-            {workspaces.map(item => <option key={item.id} value={item.id} disabled={item.membershipStatus !== 'active'}>{item.name} · {t(`workspace.type.${item.type}`)}</option>)}
-          </select>
+          <CustomSelect
+            className="workspace-switcher"
+            ariaLabel={t('workspace.switcher')}
+            value={activeWorkspace?.id ?? ''}
+            options={workspaceOptions}
+            onChange={selectWorkspace}
+          />
+          <button
+            type="button"
+            className="create-workspace-btn"
+            onClick={() => setIsCreateModalOpen(true)}
+          >
+            <span>+</span>
+            <span>{t('workspace.create', 'Создать компанию')}</span>
+          </button>
           <NavLink to="/dashboard" className={({ isActive }) => `sidebar-nav-item${isActive ? ' active' : ''}`}>
             <IconOverview />
             <span>{t('nav.overview')}</span>
@@ -85,6 +114,7 @@ export function AppShell() {
           <Outlet />
         </>}
       </main>
+      <CreateWorkspaceModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
     </div>
   )
 }

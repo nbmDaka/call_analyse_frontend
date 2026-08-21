@@ -8,6 +8,7 @@ import { addMember, getMembers, removeMember, updateMember } from '../../feature
 import { PageHeader } from '../../shared/ui/PageHeader'
 import { ErrorState } from '../../shared/ui/ErrorState'
 import { LoadingLine } from '../../shared/ui/LoadingLine'
+import { CustomSelect } from '../../shared/ui/CustomSelect'
 
 export function MembersPage() {
   const { t } = useTranslation('common')
@@ -27,9 +28,14 @@ export function MembersPage() {
     <section className="content-card">
       <form className="member-form" onSubmit={event => { event.preventDefault(); add.mutate() }}>
         <input type="email" required value={email} onChange={event => setEmail(event.target.value)} placeholder={t('members.email')} />
-        <select value={role} onChange={event => setRole(event.target.value as WorkspaceRole)}>
-          {(activeWorkspace?.membershipRole === 'owner' ? ['admin', 'supervisor', 'manager'] : ['supervisor', 'manager']).map(item => <option key={item} value={item}>{t(`roles.${item}`)}</option>)}
-        </select>
+        <CustomSelect
+          value={role}
+          onChange={val => setRole(val as WorkspaceRole)}
+          options={(activeWorkspace?.membershipRole === 'owner' ? ['admin', 'supervisor', 'manager'] : ['supervisor', 'manager']).map(item => ({
+            value: item,
+            label: t(`roles.${item}`)
+          }))}
+        />
         <button className="button button-primary" disabled={add.isPending}>{t('members.add')}</button>
       </form>
       {members.isLoading ? <LoadingLine /> : members.isError ? <ErrorState message={members.error.message} /> : <div className="table-wrap"><table><thead><tr><th>{t('members.email')}</th><th>{t('members.role')}</th><th>{t('members.status')}</th><th>{t('members.actions')}</th></tr></thead><tbody>
