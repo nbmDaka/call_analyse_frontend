@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: call-analyse-frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8095:80"
